@@ -1,1 +1,95 @@
 
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080C14">
+<title>Psychefiles AI Studio</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#080C14;color:#E8EAF2;
+ font-family:Arial,sans-serif;padding:22px;
+}
+header{text-align:center;margin:25px 0 35px}
+.logo{color:#A78BFA;font-size:13px;letter-spacing:4px}
+h1{font-size:28px;margin:12px 0}
+p{color:#A4AEC2;line-height:1.6}
+.card{
+ background:#101725;border:1px solid #293147;
+ padding:19px;border-radius:16px;margin-bottom:18px
+}
+label{display:block;margin-bottom:12px;font-weight:bold}
+textarea,select{
+ width:100%;background:#080C14;color:#E8EAF2;
+ border:1px solid #293147;border-radius:10px;
+ padding:14px;font-size:15px;margin-bottom:16px
+}
+textarea{height:125px;resize:vertical}
+button{
+ width:100%;background:#A78BFA;color:#080C14;
+ border:0;padding:16px;border-radius:11px;
+ font-weight:bold;font-size:16px
+}
+button:active{opacity:.8}
+#result{white-space:pre-wrap;color:#C4B5FD}
+footer{text-align:center;color:#64748b;font-size:12px;margin:30px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">PSYCHEFILES</div>
+<h1>AI VIDEO STUDIO</h1>
+<p>Transforme tes idées en projets cinématographiques.</p>
+</header>
+
+<div class="card">
+<label>Ton idée de vidéo</label>
+<textarea id="prompt" placeholder="Ex : La peur de l'échec et ses mécanismes psychologiques..."></textarea>
+
+<label>Format vidéo</label>
+<select id="format">
+<option value="9:16">Vertical — TikTok / Reels</option>
+<option value="16:9">Horizontal — YouTube</option>
+</select>
+
+<label>Durée</label>
+<select id="duration">
+<option>30 secondes</option>
+<option>60 secondes</option>
+<option>3 minutes</option>
+<option>5 minutes</option>
+</select>
+
+<button onclick="generate()">PRÉPARER MON FILM</button>
+</div>
+
+<div class="card">
+<h3>Production</h3>
+<p id="status">En attente de ton idée...</p>
+<div id="result"></div>
+</div>
+
+<footer>© 2026 Psychefiles AI Studio</footer>
+
+<script>
+function generate(){
+ const prompt=document.getElementById('prompt').value.trim();
+ const format=document.getElementById('format').value;
+ const duration=document.getElementById('duration').value;
+
+ if(!prompt){
+  alert("Écris d'abord ton idée de vidéo.");
+  return;
+ }
+
+ const request=`Crée un scénario cinématographique en français sur : ${prompt}. Durée : ${duration}. Format : ${format}. Prépare une narration, un découpage en scènes, des descriptions visuelles, des mouvements de caméra, une ambiance sonore et des sous-titres.`;
+
+ document.getElementById('status').textContent="Brief de production préparé.";
+ document.getElementById('result').textContent=request;
+}
+</script>
+</body>
+</html>
