@@ -270,7 +270,6 @@ label{font-size:13px;font-weight:bold}
 }
 
 .scene-field{min-width:0}
-
 .scene-field.full{grid-column:1/-1}
 
 .scene-field label{
@@ -369,7 +368,7 @@ label{font-size:13px;font-weight:bold}
 
   <div class="sidebar-bottom">
     PSYCHEFILES AI STUDIO<br>
-    Version 0.4 — AI Storyboard
+    Version 0.5 — Storyboard Fix
   </div>
 
 </aside>
@@ -418,7 +417,7 @@ label{font-size:13px;font-weight:bold}
       </div>
 
       <div class="panel stat">
-        <strong>0.4</strong>
+        <strong>0.5</strong>
         <p>Version du studio</p>
       </div>
 
@@ -466,30 +465,18 @@ label{font-size:13px;font-weight:bold}
       <form id="projectForm">
 
         <label for="title">Nom du projet</label>
-
-        <input
-          id="title"
-          required
-          placeholder="Ex : La psychologie de la manipulation"
-        >
+        <input id="title" required placeholder="Ex : La psychologie de la manipulation">
 
         <label for="idea">Idée de la vidéo</label>
-
-        <textarea
-          id="idea"
-          required
-          placeholder="Décris le sujet et le message que tu veux transmettre..."
-        ></textarea>
+        <textarea id="idea" required placeholder="Décris le sujet et le message que tu veux transmettre..."></textarea>
 
         <label for="format">Format vidéo</label>
-
         <select id="format">
           <option value="9:16">Vertical — TikTok / Reels</option>
           <option value="16:9">Horizontal — YouTube</option>
         </select>
 
         <label for="duration">Durée souhaitée</label>
-
         <select id="duration">
           <option>30 secondes</option>
           <option selected>60 secondes</option>
@@ -498,16 +485,13 @@ label{font-size:13px;font-weight:bold}
         </select>
 
         <label for="language">Langue</label>
-
         <select id="language">
           <option>Français</option>
           <option>Arabe</option>
           <option>Anglais</option>
         </select>
 
-        <button class="primary" type="submit">
-          Créer mon projet
-        </button>
+        <button class="primary" type="submit">Créer mon projet</button>
 
       </form>
 
@@ -524,7 +508,6 @@ label{font-size:13px;font-weight:bold}
     <div class="panel">
 
       <div class="section-label">ESPACE DE RÉDACTION</div>
-
       <h2>Script Studio</h2>
 
       <p class="muted">
@@ -532,10 +515,7 @@ label{font-size:13px;font-weight:bold}
         Modifie chaque partie et conserve tes scripts.
       </p>
 
-      <label for="scriptProjectSelect">
-        Choisir un projet
-      </label>
-
+      <label for="scriptProjectSelect">Choisir un projet</label>
       <select id="scriptProjectSelect">
         <option value="">Sélectionne un projet...</option>
       </select>
@@ -546,27 +526,17 @@ label{font-size:13px;font-weight:bold}
 
       <div class="script-toolbar">
 
-        <button
-          class="primary"
-          type="button"
-          id="generateScript"
-        >
+        <button class="primary" type="button" id="generateScript">
           ✦ Générer avec l'IA
         </button>
 
-        <button
-          class="secondary"
-          type="button"
-          id="loadScript"
-        >
+        <button class="secondary" type="button" id="loadScript">
           Charger le script enregistré
         </button>
 
       </div>
 
-      <label for="scriptEditor">
-        Éditeur de script
-      </label>
+      <label for="scriptEditor">Éditeur de script</label>
 
       <textarea
         id="scriptEditor"
@@ -576,19 +546,11 @@ label{font-size:13px;font-weight:bold}
 
       <div class="script-toolbar">
 
-        <button
-          class="primary"
-          type="button"
-          id="saveScript"
-        >
+        <button class="primary" type="button" id="saveScript">
           Enregistrer le script
         </button>
 
-        <button
-          class="secondary"
-          type="button"
-          id="clearScript"
-        >
+        <button class="secondary" type="button" id="clearScript">
           Effacer le texte
         </button>
 
@@ -612,7 +574,6 @@ label{font-size:13px;font-weight:bold}
     <div class="panel">
 
       <div class="section-label">PRÉPRODUCTION CINÉMATOGRAPHIQUE</div>
-
       <h2>Storyboard Studio</h2>
 
       <p class="muted">
@@ -686,73 +647,41 @@ label{font-size:13px;font-weight:bold}
   <!-- VISUAL STUDIO -->
 
   <section class="page" id="visual">
-
     <div class="panel">
       <h2>Visual Studio</h2>
-
-      <p class="muted">
-        Gestion des images et des séquences visuelles.
-      </p>
-
-      <p class="notice">
-        Importation et génération des visuels : prochaine phase.
-      </p>
+      <p class="muted">Gestion des images et des séquences visuelles.</p>
+      <p class="notice">Importation et génération des visuels : prochaine phase.</p>
     </div>
-
   </section>
 
   <!-- VOICE STUDIO -->
 
   <section class="page" id="voice">
-
     <div class="panel">
       <h2>Voice Studio</h2>
-
-      <p class="muted">
-        Narration, voix et réglages audio.
-      </p>
-
-      <p class="notice">
-        Le moteur vocal sera intégré ultérieurement.
-      </p>
+      <p class="muted">Narration, voix et réglages audio.</p>
+      <p class="notice">Le moteur vocal sera intégré ultérieurement.</p>
     </div>
-
   </section>
 
   <!-- VIDEO EDITOR -->
 
   <section class="page" id="editor">
-
     <div class="panel">
       <h2>Video Editor</h2>
-
-      <p class="muted">
-        Montage, chronologie, musique et sous-titres.
-      </p>
-
-      <p class="notice">
-        Le moteur de montage sera développé dans une prochaine phase.
-      </p>
+      <p class="muted">Montage, chronologie, musique et sous-titres.</p>
+      <p class="notice">Le moteur de montage sera développé dans une prochaine phase.</p>
     </div>
-
   </section>
 
   <!-- EXPORT STUDIO -->
 
   <section class="page" id="export">
-
     <div class="panel">
       <h2>Export Studio</h2>
-
-      <p class="muted">
-        Préparation de la vidéo finale.
-      </p>
-
-      <p class="notice">
-        L'export MP4 sera disponible après l'intégration du moteur vidéo.
-      </p>
+      <p class="muted">Préparation de la vidéo finale.</p>
+      <p class="notice">L'export MP4 sera disponible après l'intégration du moteur vidéo.</p>
     </div>
-
   </section>
 
 </main>
@@ -798,13 +727,9 @@ function showPage(id){
 
  document.getElementById("pageTitle").textContent=pages[id];
 
- if(id==="script"){
-  populateScriptProjects();
- }
+ if(id==="script") populateScriptProjects();
+ if(id==="storyboard") populateStoryboardProjects();
 
- if(id==="storyboard"){
-  populateStoryboardProjects();
- }
 }
 
 document.querySelectorAll(".nav button").forEach(button=>{
@@ -821,7 +746,6 @@ document.querySelectorAll(".nav button").forEach(button=>{
 let projects=[];
 
 try{
-
  projects=JSON.parse(
   localStorage.getItem("psychefilesProjects")||"[]"
  );
@@ -829,9 +753,7 @@ try{
  if(!Array.isArray(projects))projects=[];
 
 }catch(e){
-
  projects=[];
-
 }
 
 
@@ -858,8 +780,7 @@ function escapeHTML(value){
 
 function renderProjects(){
 
- document.getElementById("totalProjects").textContent=
-  projects.length;
+ document.getElementById("totalProjects").textContent=projects.length;
 
  const cards=projects.map(p=>`
 
@@ -870,9 +791,7 @@ function renderProjects(){
    </small>
 
    <h3>${escapeHTML(p.title)}</h3>
-
    <p>${escapeHTML(p.idea)}</p>
-
    <p>${escapeHTML(p.language)}</p>
 
    ${p.script ? '<small>✓ Script enregistré</small>' : ''}
@@ -903,20 +822,11 @@ function renderProjects(){
 function persistProjects(){
 
  try{
-
-  localStorage.setItem(
-   "psychefilesProjects",
-   JSON.stringify(projects)
-  );
-
+  localStorage.setItem("psychefilesProjects",JSON.stringify(projects));
   return true;
-
  }catch(error){
-
   console.error("Project storage error:",error);
-
   return false;
-
  }
 
 }
@@ -932,23 +842,14 @@ document.getElementById("projectForm")
  e.preventDefault();
 
  const project={
-
   id:Date.now().toString(),
-
   title:document.getElementById("title").value.trim(),
-
   idea:document.getElementById("idea").value.trim(),
-
   format:document.getElementById("format").value,
-
   duration:document.getElementById("duration").value,
-
   language:document.getElementById("language").value,
-
   script:"",
-
   storyboard:[]
-
  };
 
  if(!project.title||!project.idea)return;
@@ -963,18 +864,15 @@ document.getElementById("projectForm")
    "Erreur de sauvegarde. Vérifie l'espace disponible dans ton navigateur.";
 
   return;
-
  }
 
  renderProjects();
-
  populateScriptProjects();
  populateStoryboardProjects();
 
  this.reset();
 
- document.getElementById("formMessage").textContent=
-  "Projet créé avec succès.";
+ document.getElementById("formMessage").textContent="Projet créé avec succès.";
 
  showPage("projects");
 
@@ -988,18 +886,14 @@ document.getElementById("projectForm")
 function populateScriptProjects(){
 
  const select=document.getElementById("scriptProjectSelect");
-
  const previous=select.value;
 
- select.innerHTML=
-  '<option value="">Sélectionne un projet...</option>';
+ select.innerHTML='<option value="">Sélectionne un projet...</option>';
 
  projects.forEach(project=>{
 
   const option=document.createElement("option");
-
   option.value=project.id || project.title;
-
   option.textContent=project.title;
 
   select.appendChild(option);
@@ -1029,15 +923,11 @@ function getSelectedProject(){
 function updateScriptProjectInfo(){
 
  const project=getSelectedProject();
-
  const info=document.getElementById("scriptProjectInfo");
 
  if(!project){
-
   info.textContent="Sélectionne un projet pour commencer.";
-
   return;
-
  }
 
  info.textContent=
@@ -1053,17 +943,13 @@ function updateScriptProjectInfo(){
 async function generateScriptDraft(){
 
  const project=getSelectedProject();
-
  const message=document.getElementById("scriptMessage");
  const editor=document.getElementById("scriptEditor");
  const button=document.getElementById("generateScript");
 
  if(!project){
-
   message.textContent="Choisis d'abord un projet.";
-
   return;
-
  }
 
  button.disabled=true;
@@ -1092,13 +978,13 @@ IDENTITÉ ÉDITORIALE :
 - Une conclusion mémorable et un appel à l'action discret pour Psychefiles.
 
 STRUCTURE :
-1. ACCROCHE : attirer immédiatement l'attention.
-2. INTRODUCTION : présenter le sujet.
-3. DÉVELOPPEMENT : expliquer les mécanismes psychologiques.
-4. EXEMPLES : illustrer avec des situations concrètes.
-5. CONSEILS : proposer des pistes pratiques et nuancées.
-6. CONCLUSION : terminer avec une idée forte.
-7. APPEL À L'ACTION : inviter à suivre Psychefiles.
+1. ACCROCHE
+2. INTRODUCTION
+3. DÉVELOPPEMENT
+4. EXEMPLES
+5. CONSEILS
+6. CONCLUSION
+7. APPEL À L'ACTION
 
 CONSIGNES :
 - Adapte la longueur à la durée demandée.
@@ -1116,13 +1002,8 @@ Présente le résultat avec des titres de sections clairs.
 
   const response=await fetch(API_URL,{
    method:"POST",
-   headers:{
-    "Content-Type":"application/json"
-   },
-   body:JSON.stringify({
-    model:"auto",
-    prompt:prompt
-   })
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({model:"auto",prompt:prompt})
   });
 
   let result;
@@ -1147,8 +1028,7 @@ Présente le résultat avec des titres de sections clairs.
    );
   }
 
-  const generatedText=
-   result.choices?.[0]?.message?.content;
+  const generatedText=result.choices?.[0]?.message?.content;
 
   if(!generatedText){
    throw new Error("Le modèle IA n'a retourné aucun texte.");
@@ -1186,19 +1066,14 @@ Présente le résultat avec des titres de sections clairs.
 function saveProjectScript(){
 
  const project=getSelectedProject();
-
  const message=document.getElementById("scriptMessage");
 
  if(!project){
-
   message.textContent="Choisis un projet avant d'enregistrer.";
-
   return;
-
  }
 
  const previousScript=project.script;
-
  project.script=document.getElementById("scriptEditor").value;
 
  if(!persistProjects()){
@@ -1209,7 +1084,6 @@ function saveProjectScript(){
    "Erreur de sauvegarde. Vérifie l'espace disponible dans ton navigateur.";
 
   return;
-
  }
 
  renderProjects();
@@ -1227,29 +1101,19 @@ function saveProjectScript(){
 function loadProjectScript(){
 
  const project=getSelectedProject();
-
  const message=document.getElementById("scriptMessage");
 
  if(!project){
-
   message.textContent="Choisis un projet.";
-
   return;
-
  }
 
  if(!project.script){
-
-  message.textContent=
-   "Aucun script enregistré pour ce projet.";
-
+  message.textContent="Aucun script enregistré pour ce projet.";
   return;
-
  }
 
- document.getElementById("scriptEditor").value=
-  project.script;
-
+ document.getElementById("scriptEditor").value=project.script;
  message.textContent="Script chargé avec succès.";
 
 }
@@ -1289,16 +1153,13 @@ document.getElementById("clearScript")
 function populateStoryboardProjects(){
 
  const select=document.getElementById("storyboardProjectSelect");
-
  const previous=select.value;
 
- select.innerHTML=
-  '<option value="">Sélectionne un projet...</option>';
+ select.innerHTML='<option value="">Sélectionne un projet...</option>';
 
  projects.forEach(project=>{
 
   const option=document.createElement("option");
-
   option.value=project.id || project.title;
   option.textContent=project.title;
 
@@ -1330,15 +1191,11 @@ function getStoryboardProject(){
 function updateStoryboardProjectInfo(){
 
  const project=getStoryboardProject();
-
  const info=document.getElementById("storyboardProjectInfo");
 
  if(!project){
-
   info.textContent="Sélectionne un projet pour commencer.";
-
   return;
-
  }
 
  info.textContent=
@@ -1370,7 +1227,6 @@ function getSceneDuration(time){
 function updateStoryboardStats(scenes){
 
  const total=scenes.length;
-
  const validated=scenes.filter(scene=>scene.validated).length;
 
  const seconds=scenes.reduce((sum,scene)=>{
@@ -1378,7 +1234,6 @@ function updateStoryboardStats(scenes){
  },0);
 
  document.getElementById("sceneCount").textContent=total;
-
  document.getElementById("sceneValidatedCount").textContent=validated;
 
  document.getElementById("storyboardDuration").textContent=
@@ -1392,7 +1247,6 @@ function updateStoryboardStats(scenes){
 function renderStoryboard(){
 
  const project=getStoryboardProject();
-
  const container=document.getElementById("storyboardScenes");
 
  if(!project || !Array.isArray(project.storyboard) || !project.storyboard.length){
@@ -1405,7 +1259,6 @@ function renderStoryboard(){
   `;
 
   updateStoryboardStats([]);
-
   return;
 
  }
@@ -1501,63 +1354,191 @@ function renderStoryboard(){
 }
 
 
-// EXTRACTION DU JSON RETOURNÉ PAR L'IA
+// ======================================
+// NOUVEAU : EXTRACTION DU TEXTE IA
+// ======================================
 
-function parseStoryboardJSON(content){
+function extractStoryboardContent(result){
 
- let cleaned=String(content).trim();
+ const message=result?.choices?.[0]?.message;
 
- cleaned=cleaned
-  .replace(/^```(?:json)?\s*/i,"")
-  .replace(/\s*```$/,"");
+ let content=
+  message?.content ??
+  result?.output_text ??
+  result?.response ??
+  result?.content;
 
- const first=cleaned.indexOf("{");
- const last=cleaned.lastIndexOf("}");
+ // Certains modèles renvoient un tableau de blocs de texte.
 
- if(first===-1 || last===-1){
-  throw new Error("Le résultat IA ne contient pas de JSON exploitable.");
+ if(Array.isArray(content)){
+
+  content=content.map(part=>{
+
+   if(typeof part==="string")return part;
+
+   return part?.text || part?.content || "";
+
+  }).join("\n");
+
  }
 
- const parsed=JSON.parse(cleaned.slice(first,last+1));
-
- if(!Array.isArray(parsed.scenes) || !parsed.scenes.length){
-  throw new Error("Le storyboard retourné ne contient aucune scène.");
+ if(typeof content==="object" && content!==null){
+  content=JSON.stringify(content);
  }
 
- return parsed.scenes.map(scene=>({
+ if(typeof content!=="string" || !content.trim()){
 
-  title:String(scene.title || ""),
-  time:String(scene.time || ""),
-  voiceover:String(scene.voiceover || ""),
-  visual:String(scene.visual || ""),
-  camera:String(scene.camera || ""),
-  movement:String(scene.movement || ""),
-  lighting:String(scene.lighting || ""),
-  sound:String(scene.sound || ""),
-  visualPrompt:String(scene.visualPrompt || ""),
-  validated:false
+  console.error("Réponse IA reçue :",result);
 
- }));
+  throw new Error(
+   "Aucun texte exploitable dans la réponse du modèle. Consulte la console."
+  );
+
+ }
+
+ return content.trim();
 
 }
 
 
+// ======================================
+// NOUVEAU : EXTRACTION ET VALIDATION JSON
+// ======================================
+
+function parseStoryboardJSON(content){
+
+ let cleaned=String(content)
+  .trim()
+  .replace(/^```(?:json)?\s*/i,"")
+  .replace(/\s*```$/i,"")
+  .trim();
+
+ let parsed=null;
+
+ // Première tentative : JSON complet.
+
+ try{
+  parsed=JSON.parse(cleaned);
+ }catch(error){
+  // On cherche ensuite un objet JSON dans le texte.
+ }
+
+ // Deuxième tentative : extraction d'un objet JSON.
+
+ if(!parsed){
+
+  const start=cleaned.indexOf("{");
+
+  let depth=0;
+  let inString=false;
+  let escaped=false;
+
+  for(let i=start; start!==-1 && i<cleaned.length; i++){
+
+   const char=cleaned[i];
+
+   if(inString){
+
+    if(escaped){
+     escaped=false;
+    }else if(char==="\\"){
+     escaped=true;
+    }else if(char==='"'){
+     inString=false;
+    }
+
+    continue;
+   }
+
+   if(char==='"'){
+    inString=true;
+   }else if(char==="{"){
+    depth++;
+   }else if(char==="}"){
+
+    depth--;
+
+    if(depth===0){
+
+     try{
+      parsed=JSON.parse(cleaned.slice(start,i+1));
+     }catch(error){
+
+      throw new Error(
+       "Le modèle a produit un JSON incorrect : "+error.message
+      );
+
+     }
+
+     break;
+
+    }
+
+   }
+
+  }
+
+ }
+
+ if(!parsed){
+
+  console.error("Texte brut du storyboard :",content);
+
+  throw new Error(
+   "Impossible de trouver un objet JSON valide dans la réponse IA."
+  );
+
+ }
+
+ if(!Array.isArray(parsed.scenes) || !parsed.scenes.length){
+
+  console.error("Structure JSON reçue :",parsed);
+
+  throw new Error(
+   "Le JSON existe, mais ne contient pas de tableau scenes valide."
+  );
+
+ }
+
+ return parsed.scenes.map((scene,index)=>{
+
+  if(!scene || typeof scene!=="object"){
+   throw new Error("La scène "+(index+1)+" est invalide.");
+  }
+
+  return {
+
+   title:String(scene.title || "Scène "+(index+1)),
+   time:String(scene.time || ""),
+   voiceover:String(scene.voiceover || ""),
+   visual:String(scene.visual || ""),
+   camera:String(scene.camera || ""),
+   movement:String(scene.movement || ""),
+   lighting:String(scene.lighting || ""),
+   sound:String(scene.sound || ""),
+   visualPrompt:String(scene.visualPrompt || ""),
+   validated:false
+
+  };
+
+ });
+
+}
+
+
+// ======================================
 // GÉNÉRATION IA DU STORYBOARD
+// ======================================
 
 async function generateStoryboard(){
 
  const project=getStoryboardProject();
-
  const message=document.getElementById("storyboardMessage");
-
  const button=document.getElementById("generateStoryboard");
 
  if(!project){
-
   message.textContent="Sélectionne d'abord un projet.";
-
   return;
-
  }
 
  if(!project.script || !project.script.trim()){
@@ -1665,6 +1646,8 @@ IMPORTANT :
    throw new Error("Réponse invalide du serveur.");
   }
 
+  console.log("Réponse brute du serveur :",result);
+
   if(!response.ok){
 
    const serverError=
@@ -1677,17 +1660,23 @@ IMPORTANT :
      ? serverError
      : JSON.stringify(serverError)
    );
+
   }
 
-  const content=result.choices?.[0]?.message?.content;
+  // Récupérer le texte même si le modèle utilise
+  // un format de réponse différent.
 
-  if(!content){
-   throw new Error("Le modèle IA n'a retourné aucun contenu.");
-  }
+  const content=extractStoryboardContent(result);
+
+  console.log("Réponse texte du storyboard :",content);
+
+  // Transformer le JSON en scènes utilisables.
 
   const scenes=parseStoryboardJSON(content);
 
-  // Conserver l'ancien storyboard en cas d'échec de sauvegarde.
+  console.log("Scènes extraites :",scenes);
+
+  // Sauvegarde sécurisée : ne pas perdre l'ancien storyboard.
 
   const previousStoryboard=project.storyboard;
 
@@ -1697,7 +1686,9 @@ IMPORTANT :
 
    project.storyboard=previousStoryboard;
 
-   throw new Error("Impossible de sauvegarder les scènes dans le navigateur.");
+   throw new Error(
+    "Impossible de sauvegarder les scènes dans le navigateur."
+   );
 
   }
 
@@ -1724,39 +1715,35 @@ IMPORTANT :
 }
 
 
+// ======================================
 // ENREGISTRER LES MODIFICATIONS DES SCÈNES
+// ======================================
 
 function saveStoryboardChanges(){
 
  const project=getStoryboardProject();
-
  const message=document.getElementById("storyboardMessage");
 
  if(!project || !Array.isArray(project.storyboard)){
 
   message.textContent="Aucun storyboard à enregistrer.";
-
   return;
 
  }
 
- // Conserver les anciennes données pour pouvoir annuler
- // une modification si la sauvegarde échoue.
-
- const previousStoryboard=JSON.parse(JSON.stringify(project.storyboard));
+ const previousStoryboard=JSON.parse(
+  JSON.stringify(project.storyboard)
+ );
 
  document.querySelectorAll(".storyboard-scene").forEach(card=>{
 
   const index=Number(card.dataset.sceneIndex);
-
   const scene=project.storyboard[index];
 
   if(!scene)return;
 
   card.querySelectorAll("[data-field]").forEach(field=>{
-
    scene[field.dataset.field]=field.value;
-
   });
 
  });
@@ -1764,11 +1751,9 @@ function saveStoryboardChanges(){
  if(!persistProjects()){
 
   project.storyboard=previousStoryboard;
-
   renderStoryboard();
 
   message.textContent="Erreur lors de la sauvegarde.";
-
   return;
 
  }
@@ -1780,26 +1765,23 @@ function saveStoryboardChanges(){
 }
 
 
+// ======================================
 // CHARGER LE STORYBOARD
+// ======================================
 
 function loadStoryboard(){
 
  const project=getStoryboardProject();
-
  const message=document.getElementById("storyboardMessage");
 
  if(!project){
-
   message.textContent="Sélectionne un projet.";
-
   return;
-
  }
 
  if(!Array.isArray(project.storyboard) || !project.storyboard.length){
 
   message.textContent="Aucun storyboard enregistré pour ce projet.";
-
   renderStoryboard();
 
   return;
@@ -1813,7 +1795,9 @@ function loadStoryboard(){
 }
 
 
+// ======================================
 // VALIDATION INDIVIDUELLE DES SCÈNES
+// ======================================
 
 document.getElementById("storyboardScenes")
 .addEventListener("click",event=>{
@@ -1827,7 +1811,6 @@ document.getElementById("storyboardScenes")
  if(!project || !Array.isArray(project.storyboard))return;
 
  const index=Number(button.dataset.index);
-
  const scene=project.storyboard[index];
 
  if(!scene)return;
@@ -1857,13 +1840,14 @@ document.getElementById("storyboardScenes")
 });
 
 
+// ======================================
 // ÉVÉNEMENTS STORYBOARD
+// ======================================
 
 document.getElementById("storyboardProjectSelect")
 .addEventListener("change",()=>{
 
  updateStoryboardProjectInfo();
-
  renderStoryboard();
 
  document.getElementById("storyboardMessage").textContent="";
@@ -1885,9 +1869,7 @@ document.getElementById("loadStoryboard")
 // ======================================
 
 renderProjects();
-
 populateScriptProjects();
-
 populateStoryboardProjects();
 
 </script>
