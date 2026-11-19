@@ -131,6 +131,11 @@ h3{font-size:16px}
 
 .primary:hover{background:var(--light)}
 
+.primary:disabled{
+  opacity:.65;
+  cursor:wait;
+}
+
 .secondary{
   border:1px solid var(--border);
   border-radius:9px;
@@ -191,6 +196,7 @@ label{font-size:13px;font-weight:bold}
   font-size:13px;
   margin-top:15px;
   line-height:1.5;
+  overflow-wrap:anywhere;
 }
 
 .editor{
@@ -259,7 +265,7 @@ label{font-size:13px;font-weight:bold}
 
   <div class="sidebar-bottom">
     PSYCHEFILES AI STUDIO<br>
-    Version 0.2 — Prototype
+    Version 0.3 — AI Connected
   </div>
 
 </aside>
@@ -308,7 +314,7 @@ label{font-size:13px;font-weight:bold}
       </div>
 
       <div class="panel stat">
-        <strong>0.2</strong>
+        <strong>0.3</strong>
         <p>Version du studio</p>
       </div>
 
@@ -418,7 +424,7 @@ label{font-size:13px;font-weight:bold}
       <h2>Script Studio</h2>
 
       <p class="muted">
-        Transforme l'idée de ton projet en narration structurée.
+        Génère une narration avec l'intelligence artificielle.
         Modifie chaque partie et conserve tes scripts.
       </p>
 
@@ -441,7 +447,7 @@ label{font-size:13px;font-weight:bold}
           type="button"
           id="generateScript"
         >
-          ✦ Préparer une trame
+          ✦ Générer avec l'IA
         </button>
 
         <button
@@ -461,7 +467,7 @@ label{font-size:13px;font-weight:bold}
       <textarea
         id="scriptEditor"
         class="editor"
-        placeholder="Ta narration apparaîtra ici. Tu pourras la modifier librement..."
+        placeholder="Ton script généré par l'IA apparaîtra ici. Tu pourras le modifier librement..."
       ></textarea>
 
       <div class="script-toolbar">
@@ -589,6 +595,11 @@ label{font-size:13px;font-weight:bold}
 </div>
 
 <script>
+
+// CONFIGURATION API
+
+const API_URL =
+ "https://psychefiles-ai-server.khalilsafae54.workers.dev/api/generate";
 
 // NAVIGATION
 
@@ -829,90 +840,130 @@ function updateScriptProjectInfo(){
 
 }
 
-// PREPARATION DE LA TRAME
+// GÉNÉRATION IA DU SCRIPT
 
-function generateScriptDraft(){
+async function generateScriptDraft(){
 
  const project=getSelectedProject();
 
  const message=document.getElementById("scriptMessage");
+ const editor=document.getElementById("scriptEditor");
+ const button=document.getElementById("generateScript");
 
  if(!project){
-
   message.textContent="Choisis d'abord un projet.";
-
   return;
-
  }
 
- const draft=
+ button.disabled=true;
+ button.textContent="⏳ Génération en cours...";
+ message.textContent="Connexion à Psychefiles AI Server...";
 
-`TITRE : ${project.title}
+ const prompt=`
+Tu es le scénariste principal de Psychefiles, un studio spécialisé dans les vidéos de psychologie.
 
-SUJET DE LA VIDÉO
-${project.idea}
+MISSION :
+Écris un script vidéo complet, captivant, naturel et pédagogique.
 
-━━━━━━━━━━━━━━━━━━━━
-1. ACCROCHE — CAPTER L'ATTENTION
-━━━━━━━━━━━━━━━━━━━━
+TITRE : ${project.title}
+SUJET : ${project.idea}
+DURÉE : ${project.duration}
+FORMAT : ${project.format}
+LANGUE : ${project.language}
 
-Et si ce que tu pensais savoir sur ce sujet était faux ?
+IDENTITÉ ÉDITORIALE :
+- Ton cinématographique, immersif et intelligent.
+- Une accroche forte dès les premières secondes.
+- Une narration fluide, humaine et facile à comprendre.
+- Des exemples concrets de la vie quotidienne.
+- Des explications psychologiques accessibles.
+- Une progression narrative qui maintient l'attention.
+- Une conclusion mémorable et un appel à l'action discret pour Psychefiles.
 
-Dans cette vidéo, nous allons découvrir un mécanisme psychologique qui pourrait changer ta façon de comprendre les comportements humains.
+STRUCTURE :
+1. ACCROCHE : attirer immédiatement l'attention.
+2. INTRODUCTION : présenter le sujet.
+3. DÉVELOPPEMENT : expliquer les mécanismes psychologiques.
+4. EXEMPLES : illustrer avec des situations concrètes.
+5. CONSEILS : proposer des pistes pratiques et nuancées.
+6. CONCLUSION : terminer avec une idée forte.
+7. APPEL À L'ACTION : inviter à suivre Psychefiles.
 
-━━━━━━━━━━━━━━━━━━━━
-2. INTRODUCTION — POSER LE CONTEXTE
-━━━━━━━━━━━━━━━━━━━━
+CONSIGNES :
+- Adapte la longueur à la durée demandée.
+- Écris la narration intégrale, pas seulement un plan.
+- N'invente pas d'études, de statistiques ou de citations.
+- Distingue les faits établis des hypothèses.
+- Évite les répétitions et les formulations artificielles.
+- Utilise un langage oral et naturel.
+- N'ajoute aucun commentaire sur ta méthode.
 
-Présenter le sujet : ${project.title}.
+Présente le résultat avec des titres de sections clairs.
+`;
 
-Expliquer pourquoi ce sujet mérite notre attention et dans quelles situations il apparaît dans la vie quotidienne.
+ try{
 
-━━━━━━━━━━━━━━━━━━━━
-3. DÉVELOPPEMENT — EXPLIQUER LE MÉCANISME
-━━━━━━━━━━━━━━━━━━━━
+  const response=await fetch(API_URL,{
+   method:"POST",
+   headers:{
+    "Content-Type":"application/json"
+   },
+   body:JSON.stringify({
+    model:"auto",
+    prompt:prompt
+   })
+  });
 
-PARTIE 1 — Comprendre le phénomène
+  let result;
 
-Expliquer le mécanisme psychologique avec des mots simples.
+  try{
+   result=await response.json();
+  }catch{
+   throw new Error("Réponse invalide du serveur.");
+  }
 
-PARTIE 2 — Reconnaître ses manifestations
+  if(!response.ok){
 
-Présenter des exemples concrets et des situations de la vie quotidienne.
+   const serverError=
+    result.error?.message ||
+    result.error ||
+    "Erreur HTTP "+response.status;
 
-PARTIE 3 — Comprendre ses conséquences
+   throw new Error(
+    typeof serverError==="string"
+     ? serverError
+     : JSON.stringify(serverError)
+   );
+  }
 
-Expliquer comment ce phénomène peut influencer les pensées, les émotions et les comportements.
+  const generatedText=
+   result.choices?.[0]?.message?.content;
 
-━━━━━━━━━━━━━━━━━━━━
-4. CONCLUSION — CE QU'IL FAUT RETENIR
-━━━━━━━━━━━━━━━━━━━━
+  if(!generatedText){
+   throw new Error("Le modèle IA n'a retourné aucun texte.");
+  }
 
-Résumer les idées essentielles.
+  editor.value=generatedText;
 
-Donner une piste de réflexion ou un conseil pratique au spectateur.
+  message.textContent=
+   "Script généré avec succès par "+
+   (result.model || "Psychefiles AI")+
+   ". Vérifie et modifie ton texte avant de l'enregistrer.";
 
-━━━━━━━━━━━━━━━━━━━━
-5. APPEL À L'ACTION
-━━━━━━━━━━━━━━━━━━━━
+ }catch(error){
 
-Si cette vidéo t'a aidé à mieux comprendre la psychologie humaine, abonne-toi à Psychefiles pour découvrir d'autres dossiers sur les mécanismes de l'esprit.
+  console.error("Psychefiles AI error:",error);
 
-━━━━━━━━━━━━━━━━━━━━
-NOTES DE PRODUCTION
-━━━━━━━━━━━━━━━━━━━━
+  message.textContent=
+   "Erreur de génération : "+error.message+
+   ". Vérifie que le serveur et le tunnel Cloudflare sont actifs.";
 
-Durée souhaitée : ${project.duration}
-Format : ${project.format}
-Langue : ${project.language}
+ }finally{
 
-À FAIRE : enrichir les exemples, vérifier les informations et personnaliser la narration avant validation.`;
+  button.disabled=false;
+  button.textContent="✦ Générer avec l'IA";
 
- document.getElementById("scriptEditor").value=draft;
-
- message.textContent=
-  "Trame préparée. Tu peux maintenant la modifier.";
-
+ }
 }
 
 // ENREGISTRER LE SCRIPT
