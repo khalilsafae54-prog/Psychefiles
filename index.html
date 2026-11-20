@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -313,6 +312,15 @@ label{font-size:13px;font-weight:bold}
   line-height:1.7;
 }
 
+
+/* VISUAL STUDIO */
+.visual-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.85fr);gap:18px}
+.visual-preview{min-height:340px;display:flex;align-items:center;justify-content:center;background:#080C14;border:1px dashed var(--border);border-radius:12px;overflow:hidden;padding:12px}
+.visual-preview img{display:block;max-width:100%;max-height:620px;object-fit:contain;border-radius:8px}
+.visual-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.visual-meta{font-size:12px;color:var(--muted);line-height:1.6;margin-top:12px}
+.visual-scene-link{margin-top:12px;padding:12px;border:1px solid var(--border);border-radius:10px;background:#0D1421}
+
 @media(max-width:800px){
   .app{display:block}
   .sidebar{width:100%;padding:15px}
@@ -322,6 +330,7 @@ label{font-size:13px;font-weight:bold}
   .nav button{white-space:nowrap;width:auto}
   .main{padding:20px 15px}
   .grid{grid-template-columns:1fr}
+  .visual-layout{grid-template-columns:1fr}
   .topbar{align-items:flex-start;flex-direction:column}
 }
 
@@ -368,7 +377,7 @@ label{font-size:13px;font-weight:bold}
 
   <div class="sidebar-bottom">
     PSYCHEFILES AI STUDIO<br>
-    Version 0.5 — Storyboard Fix
+    Version 0.6 — Visual Studio AI
   </div>
 
 </aside>
@@ -417,7 +426,7 @@ label{font-size:13px;font-weight:bold}
       </div>
 
       <div class="panel stat">
-        <strong>0.5</strong>
+        <strong>0.6</strong>
         <p>Version du studio</p>
       </div>
 
@@ -648,9 +657,51 @@ label{font-size:13px;font-weight:bold}
 
   <section class="page" id="visual">
     <div class="panel">
+      <div class="section-label">GÉNÉRATION VISUELLE PAR IA</div>
       <h2>Visual Studio</h2>
-      <p class="muted">Gestion des images et des séquences visuelles.</p>
-      <p class="notice">Importation et génération des visuels : prochaine phase.</p>
+      <p class="muted">Génère des images à partir de tes idées ou des prompts préparés dans le Storyboard.</p>
+
+      <div class="visual-layout">
+        <div>
+          <label for="visualProjectSelect">Projet</label>
+          <select id="visualProjectSelect"><option value="">Sélectionne un projet...</option></select>
+
+          <label for="imageModelSelect">Modèle IA</label>
+          <select id="imageModelSelect"><option value="">Chargement des modèles...</option></select>
+          <div id="imageModelInfo" class="visual-meta">Chargement de la liste des modèles Cloudflare...</div>
+
+          <label for="visualFormat">Orientation souhaitée</label>
+          <select id="visualFormat">
+            <option value="9:16">Verticale — TikTok / Reels / Shorts (9:16)</option>
+            <option value="16:9">Horizontale — YouTube (16:9)</option>
+            <option value="1:1">Carrée — Publication (1:1)</option>
+          </select>
+
+          <label for="visualPrompt">Prompt de l'image</label>
+          <textarea id="visualPrompt" style="min-height:190px" placeholder="Décris précisément l'image que tu veux générer..."></textarea>
+
+          <div class="visual-actions">
+            <button class="primary" type="button" id="generateImageButton">✦ Générer l'image</button>
+            <button class="secondary" type="button" id="clearVisualPrompt">Effacer</button>
+          </div>
+          <p id="visualMessage" class="notice" role="status" aria-live="polite"></p>
+          <div class="visual-scene-link">
+            <strong>Depuis le Storyboard</strong>
+            <p class="muted" style="margin-bottom:0">Dans une scène, utilise le bouton « Utiliser ce prompt » pour envoyer directement son prompt ici.</p>
+          </div>
+        </div>
+
+        <div>
+          <label>Aperçu du résultat</label>
+          <div class="visual-preview" id="visualPreview">
+            <div class="empty">Ton image générée apparaîtra ici.</div>
+          </div>
+          <div class="visual-actions">
+            <button class="secondary" type="button" id="downloadGeneratedImage" disabled>↓ Télécharger l'image</button>
+          </div>
+          <div class="visual-meta" id="visualImageInfo">Les images ne sont pas enregistrées automatiquement dans le navigateur. Télécharge chaque résultat que tu souhaites conserver.</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1342,6 +1393,10 @@ function renderStoryboard(){
      data-index="${index}">
      ${scene.validated ? "Annuler la validation" : "✓ Valider cette scène"}
     </button>
+     <button class="secondary" type="button"
+      data-action="use-visual-prompt" data-index="${index}">
+      ✦ Utiliser ce prompt
+     </button>
 
    </div>
 
@@ -1865,15 +1920,221 @@ document.getElementById("loadStoryboard")
 
 
 // ======================================
+// VISUAL STUDIO — CLOUDFLARE WORKERS AI
+// ======================================
+
+const IMAGE_MODELS_URL =
+ "https://psychefiles-ai-server.khalilsafae54.workers.dev/api/image-models";
+const IMAGE_GENERATE_URL =
+ "https://psychefiles-ai-server.khalilsafae54.workers.dev/api/generate-image";
+
+let currentGeneratedImage = null;
+let currentGeneratedImageName = "psychefiles-image";
+
+function populateVisualProjects(){
+ const select=document.getElementById("visualProjectSelect");
+ if(!select)return;
+ const previous=select.value;
+ select.innerHTML='<option value="">Sélectionne un projet...</option>';
+ projects.forEach(project=>{
+  const option=document.createElement("option");
+  option.value=project.id || project.title;
+  option.textContent=project.title;
+  select.appendChild(option);
+ });
+ if(previous && projects.some(p=>(p.id || p.title)===previous))select.value=previous;
+}
+
+async function loadImageModels(){
+ const select=document.getElementById("imageModelSelect");
+ const info=document.getElementById("imageModelInfo");
+ try{
+  info.textContent="Connexion au serveur pour récupérer les modèles...";
+  const response=await fetch(IMAGE_MODELS_URL);
+  const data=await response.json();
+  if(!response.ok || !data.success || !Array.isArray(data.models)){
+   throw new Error(data.error || "Impossible de récupérer les modèles.");
+  }
+  select.innerHTML="";
+  data.models.forEach(model=>{
+   const option=document.createElement("option");
+   option.value=model.id;
+   option.textContent=model.name;
+   select.appendChild(option);
+  });
+  const preferred="@cf/black-forest-labs/flux-1-schnell";
+  if(data.models.some(model=>model.id===preferred))select.value=preferred;
+  info.textContent=data.models.length+" modèles Cloudflare disponibles.";
+ }catch(error){
+  console.error("Image models error:",error);
+  select.innerHTML='<option value="">Modèles indisponibles</option>';
+  info.textContent="Erreur de chargement : "+error.message;
+ }
+}
+
+function getVisualProject(){
+ const value=document.getElementById("visualProjectSelect").value;
+ if(!value)return null;
+ return projects.find(p=>(p.id || p.title)===value)||null;
+}
+
+function showGeneratedImage(imageSource,modelName){
+ const preview=document.getElementById("visualPreview");
+ const image=document.createElement("img");
+ image.alt="Image générée par "+(modelName || "Psychefiles AI");
+ image.onload=()=>{
+  preview.innerHTML="";
+  preview.appendChild(image);
+  document.getElementById("downloadGeneratedImage").disabled=false;
+  document.getElementById("visualImageInfo").textContent=
+   "Modèle : "+(modelName || "Cloudflare Workers AI")+" · Image disponible dans cette session.";
+ };
+ image.onerror=()=>{
+  document.getElementById("visualMessage").textContent=
+   "L'image a été reçue, mais le navigateur ne peut pas l'afficher.";
+ };
+ image.src=imageSource;
+ currentGeneratedImage=imageSource;
+ currentGeneratedImageName="psychefiles-"+Date.now()+".png";
+}
+
+async function generateVisualImage(){
+ const button=document.getElementById("generateImageButton");
+ const message=document.getElementById("visualMessage");
+ const promptField=document.getElementById("visualPrompt");
+ const model=document.getElementById("imageModelSelect").value;
+ const format=document.getElementById("visualFormat").value;
+ const project=getVisualProject();
+ const promptText=promptField.value.trim();
+
+ if(!model){message.textContent="Aucun modèle disponible. Vérifie le chargement de la liste.";return;}
+ if(!promptText){message.textContent="Écris un prompt avant de lancer la génération.";promptField.focus();return;}
+
+ const guidance={
+  "9:16":"Composition verticale portrait 9:16, sujet principal centré et adapté à une vidéo verticale.",
+  "16:9":"Composition horizontale paysage 16:9, adaptée à une vidéo YouTube.",
+  "1:1":"Composition carrée 1:1, sujet principal bien centré."
+ };
+ const finalPrompt=(project ? "Projet : "+project.title+". " : "")+
+  "Orientation et composition souhaitées : "+guidance[format]+"\n\n"+promptText;
+
+ button.disabled=true;
+ button.textContent="⏳ Génération en cours...";
+ message.textContent="Envoi du prompt à Cloudflare Workers AI. La génération peut prendre un moment...";
+ document.getElementById("downloadGeneratedImage").disabled=true;
+
+ try{
+  const response=await fetch(IMAGE_GENERATE_URL,{
+   method:"POST",
+   headers:{"Content-Type":"application/json"},
+   body:JSON.stringify({model:model,prompt:finalPrompt})
+  });
+  const contentType=(response.headers.get("content-type") || "").toLowerCase();
+
+  // Prend également en charge une réponse binaire image/png du Worker.
+  if(response.ok && contentType.startsWith("image/")){
+   const blob=await response.blob();
+   const objectUrl=URL.createObjectURL(blob);
+   const ext=contentType.includes("jpeg")?"jpg":contentType.includes("webp")?"webp":"png";
+   currentGeneratedImage=objectUrl;
+   currentGeneratedImageName="psychefiles-"+Date.now()+"."+ext;
+   const preview=document.getElementById("visualPreview");
+   const image=document.createElement("img");
+   image.alt="Image générée par Cloudflare Workers AI";
+   image.src=objectUrl;
+   preview.innerHTML="";
+   preview.appendChild(image);
+   document.getElementById("downloadGeneratedImage").disabled=false;
+   document.getElementById("visualImageInfo").textContent="Modèle : "+model+" · "+contentType;
+   message.textContent="Image générée avec succès.";
+   return;
+  }
+
+  let result;
+  try{result=await response.json();}
+  catch{throw new Error("Le serveur n'a pas renvoyé une réponse JSON ou une image. Vérifie le Worker.");}
+
+  if(!response.ok || result.success===false){
+   const detail=result.error?.message || result.error || result.message || "Erreur HTTP "+response.status;
+   throw new Error(typeof detail==="string"?detail:JSON.stringify(detail));
+  }
+
+  let imageSource=result.image || result.image_url || result.url ||
+   result.result?.image || result.result?.image_url || result.data;
+
+  if(!imageSource && result.image_base64)imageSource="data:image/png;base64,"+result.image_base64;
+  if(!imageSource && result.result?.image_base64)imageSource="data:image/png;base64,"+result.result.image_base64;
+  if(typeof imageSource==="string" && !/^(data:image\/|https?:\/\/|blob:)/i.test(imageSource)){
+   imageSource="data:image/png;base64,"+imageSource;
+  }
+  if(!imageSource){
+   console.error("Image response:",result);
+   throw new Error("Le Worker n'a retourné aucun champ image exploitable.");
+  }
+
+  showGeneratedImage(imageSource,result.model_name || model);
+  message.textContent="Image générée avec succès. Tu peux maintenant la télécharger.";
+ }catch(error){
+  console.error("Image generation error:",error);
+  message.textContent="Erreur de génération : "+error.message;
+ }finally{
+  button.disabled=false;
+  button.textContent="✦ Générer l'image";
+ }
+}
+
+function downloadVisualImage(){
+ if(!currentGeneratedImage)return;
+ const link=document.createElement("a");
+ link.href=currentGeneratedImage;
+ link.download=currentGeneratedImageName;
+ document.body.appendChild(link);
+ link.click();
+ link.remove();
+}
+
+document.getElementById("generateImageButton").addEventListener("click",generateVisualImage);
+document.getElementById("downloadGeneratedImage").addEventListener("click",downloadVisualImage);
+document.getElementById("clearVisualPrompt").addEventListener("click",()=>{
+ document.getElementById("visualPrompt").value="";
+ document.getElementById("visualMessage").textContent="Prompt effacé.";
+});
+document.getElementById("visualProjectSelect").addEventListener("change",()=>{
+ const project=getVisualProject();
+ if(project)document.getElementById("visualFormat").value=
+  ["9:16","16:9"].includes(project.format)?project.format:"9:16";
+});
+
+document.getElementById("storyboardScenes").addEventListener("click",event=>{
+ const button=event.target.closest('[data-action="use-visual-prompt"]');
+ if(!button)return;
+ const project=getStoryboardProject();
+ const index=Number(button.dataset.index);
+ const scene=project?.storyboard?.[index];
+ if(!project || !scene)return;
+ populateVisualProjects();
+ document.getElementById("visualProjectSelect").value=project.id || project.title;
+ document.getElementById("visualPrompt").value=scene.visualPrompt || scene.visual || "";
+ document.getElementById("visualFormat").value=
+  ["9:16","16:9"].includes(project.format)?project.format:"9:16";
+ document.getElementById("visualMessage").textContent=
+  "Prompt de la scène "+(index+1)+" chargé. Tu peux le modifier avant la génération.";
+ showPage("visual");
+});
+
+
+// ======================================
 // INITIALISATION
 // ======================================
 
 renderProjects();
 populateScriptProjects();
 populateStoryboardProjects();
+populateVisualProjects();
+loadImageModels();
 
 </script>
 
 </body>
 </html>
-```
+
